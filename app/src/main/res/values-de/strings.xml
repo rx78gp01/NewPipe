@@ -721,4 +721,12 @@
     <string name="feed_toggle_show_future_items">Zukünftige Elemente anzeigen</string>
     <string name="feed_toggle_hide_played_items">Angesehene Elemente ausblenden</string>
     <string name="feed_toggle_hide_future_items">Zukünftige Elemente ausblenden</string>
+    <string name="channel_tab_videos">Videos</string>
+    <string name="channel_tab_livestreams">Live</string>
+    <string name="channel_tab_shorts">Shorts</string>
+    <string name="channel_tab_playlists">Wiedergabelisten</string>
+    <string name="channel_tab_channels">Kanäle</string>
+    <string name="channel_tab_info">Info</string>
+    <string name="show_channel_tabs">Tabs auf den Kanalseiten</string>
+    <string name="show_channel_tabs_summary">Welche Tabs auf den Kanalseiten angezeigt werden</string>
 </resources>

@@ -752,4 +752,12 @@
     <string name="unknown_quality">Unknown quality</string>
     <string name="feed_toggle_show_future_items">Show future items</string>
     <string name="feed_toggle_hide_future_items">Hide future items</string>
+    <string name="channel_tab_videos">Videos</string>
+    <string name="channel_tab_livestreams">Live</string>
+    <string name="channel_tab_shorts">Shorts</string>
+    <string name="channel_tab_playlists">Playlists</string>
+    <string name="channel_tab_channels">Channels</string>
+    <string name="channel_tab_info">Info</string>
+    <string name="show_channel_tabs">Channel tabs</string>
+    <string name="show_channel_tabs_summary">What tabs are shown on the channel pages</string>
 </resources>
