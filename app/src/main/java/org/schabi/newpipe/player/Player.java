@@ -263,6 +263,12 @@ public final class Player implements PlaybackListener, Listener {
     @NonNull
     private final HistoryRecordManager recordManager;
 
+    /*//////////////////////////////////////////////////////////////////////////
+    // Error states
+    //////////////////////////////////////////////////////////////////////////*/
+
+    private int badHttpStatusRetry = 0;
+    private int errorRetry = 0;
 
     /*//////////////////////////////////////////////////////////////////////////
     // Constructor
@@ -1436,6 +1442,16 @@ public final class Player implements PlaybackListener, Listener {
                 break;
             case ERROR_CODE_IO_INVALID_HTTP_CONTENT_TYPE:
             case ERROR_CODE_IO_BAD_HTTP_STATUS:
+                    isCatchableException = true;
+                if (badHttpStatusRetry < 3) {
+                    badHttpStatusRetry += 1;
+                if (!exoPlayerIsNull() && playQueue != null) {
+                    playQueue.error();
+                   }
+                } else {
+                    onPlaybackShutdown();
+                }
+                break;
             case ERROR_CODE_IO_FILE_NOT_FOUND:
             case ERROR_CODE_IO_NO_PERMISSION:
             case ERROR_CODE_IO_CLEARTEXT_NOT_PERMITTED:
@@ -1455,8 +1471,13 @@ public final class Player implements PlaybackListener, Listener {
             case ERROR_CODE_IO_NETWORK_CONNECTION_TIMEOUT:
             case ERROR_CODE_UNSPECIFIED:
                 // Reload playback on unexpected errors:
-                setRecovery();
-                reloadPlayQueueManager();
+                if (errorRetry < 3) {
+                    errorRetry += 1;
+                    setRecovery();
+                    reloadPlayQueueManager();
+                } else {
+                    onPlaybackShutdown();
+                }
                 break;
             default:
                 // API, remote and renderer errors belong here:
