@@ -50,6 +50,24 @@ android {
             }
         }
 
+        releaselegacy {
+            applicationIdSuffix ".legacy"
+            resValue "string", "app_name", "NewPipe Legacy"
+            minifyEnabled true
+            shrinkResources false // disabled to fix F-Droid's reproducible build
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            archivesBaseName = 'app'
+        }
+
+         releasetablet {
+            applicationIdSuffix ".tablet"
+            resValue "string", "app_name", "NewPipe Tablet Legacy"
+            minifyEnabled true
+            shrinkResources false // disabled to fix F-Droid's reproducible build
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            archivesBaseName = 'app'
+        }
+
         // Keep the release build type at the end of the list to override 'archivesBaseName' of
         // debug build. This seems to be a Gradle bug, therefore
         // TODO: update Gradle version

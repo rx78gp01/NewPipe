@@ -17,7 +17,6 @@ on:
       - '.github/ISSUE_TEMPLATE/**'
   push:
     branches:
-      - dev
       - master
     paths-ignore:
       - 'README.md'
