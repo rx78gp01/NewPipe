@@ -46,7 +46,7 @@ public final class ListHelper {
             List.of(MediaFormat.MP3, MediaFormat.M4A, MediaFormat.WEBMA);
     // Use a Set for better performance
     private static final Set<String> HIGH_RESOLUTION_LIST = Set.of("1440p", "2160p");
-    // Audio track types in order of priority. 0=lowest, n=highest
+    // Audio track types in order of priotity. 0=lowest, n=highest
     private static final List<AudioTrackType> AUDIO_TRACK_TYPE_RANKING =
             List.of(AudioTrackType.DESCRIPTIVE, AudioTrackType.DUBBED, AudioTrackType.ORIGINAL);
     // Audio track types in order of priority when descriptive audio is preferred.
@@ -472,9 +472,9 @@ public final class ListHelper {
                 .flatMap(List::stream)
                 // Filter out higher resolutions (or not if high resolutions should always be shown)
                 .filter(stream -> showHigherResolutions
-                        || !HIGH_RESOLUTION_LIST.contains(stream.getResolution()
+                        || !HIGH_RESOLUTION_LIST.contains(stream.getResolution()))
                         // Replace any frame rate with nothing
-                        .replaceAll("p\\d+$", "p")))
+                        //.replaceAll("p\\d+$", "p")))
                 .collect(Collectors.toList());
 
         final HashMap<String, VideoStream> hashMap = new HashMap<>();
