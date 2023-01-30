@@ -40,7 +40,7 @@ public final class ListHelper {
     private static final List<MediaFormat> AUDIO_FORMAT_EFFICIENCY_RANKING =
             List.of(MediaFormat.WEBMA, MediaFormat.M4A, MediaFormat.MP3);
     // Use a Set for better performance
-    private static final Set<String> HIGH_RESOLUTION_LIST = Set.of("1080p60", "1440p", "1440p60", "2160p", "2160p60");
+    private static final Set<String> HIGH_RESOLUTION_LIST = Set.of("720p60", "1080p60", "1440p", "1440p60", "2160p", "2160p60");
 
     private ListHelper() { }
 
