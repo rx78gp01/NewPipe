@@ -954,7 +954,7 @@ public final class MainPlayerUi extends VideoPlayerUi implements View.OnLayoutCh
 
         if (videoInLandscapeButNotInFullscreen
                 && notPaused
-                && !DeviceUtils.isTablet(context)) {
+                && PlayerHelper.isStartMainPlayerFullscreenEnabled(context)) {
             toggleFullscreen();
         }
     }
