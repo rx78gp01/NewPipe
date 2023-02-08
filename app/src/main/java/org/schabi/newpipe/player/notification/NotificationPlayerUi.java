@@ -38,6 +38,7 @@ public final class NotificationPlayerUi extends PlayerUi {
     public void destroy() {
         super.destroy();
         notificationUtil.cancelNotificationAndStopForeground();
+        foregroundNotificationAlreadyCreated = false;
     }
 
     @Override
@@ -74,6 +75,7 @@ public final class NotificationPlayerUi extends PlayerUi {
         if (PlayerHelper.getMinimizeOnExitAction(context) == MINIMIZE_ON_EXIT_MODE_NONE
                 && player.videoPlayerSelected()) {
             notificationUtil.cancelNotificationAndStopForeground();
+            foregroundNotificationAlreadyCreated = false;
         } else {
             notificationUtil.createNotificationIfNeededAndUpdate(false);
         }
