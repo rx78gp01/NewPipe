@@ -51,7 +51,7 @@
     </string-array>
 
     <string name="progressive_load_interval_key">progressive_load_interval</string>
-    <string name="progressive_load_interval_default_value">64</string>
+    <string name="progressive_load_interval_default_value">256</string>
     <string name="progressive_load_interval_exoplayer_default_value">exoplayer_default</string>
     <string-array name="progressive_load_interval_descriptions">
         <item>1 KiB</item>
@@ -63,8 +63,8 @@
     <string-array name="progressive_load_interval_values">
         <item>1</item>
         <item>16</item>
+        <item>64</item>
         <item>@string/progressive_load_interval_default_value</item>
-        <item>256</item>
         <item>@string/progressive_load_interval_exoplayer_default_value</item>
     </string-array>
 
