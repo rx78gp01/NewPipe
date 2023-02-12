@@ -72,7 +72,19 @@ public final class NotificationUtil {
      *                      exists
      */
     public synchronized void createNotificationIfNeededAndUpdate(final boolean forceRecreate) {
-        if (forceRecreate || notificationBuilder == null) {
+        if (notificationBuilder == null) {
+            notificationBuilder = createNotification();
+            updateNotification();
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                player.getService().startForeground(NOTIFICATION_ID, notificationBuilder.build(),
+                        ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK);
+            } else {
+                player.getService().startForeground(NOTIFICATION_ID, notificationBuilder.build());
+            }
+            return;
+        }
+        else if (forceRecreate) {
             notificationBuilder = createNotification();
         }
         updateNotification();
