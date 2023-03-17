@@ -88,6 +88,7 @@ import org.schabi.newpipe.databinding.PlayerBinding;
 import org.schabi.newpipe.error.ErrorInfo;
 import org.schabi.newpipe.error.ErrorUtil;
 import org.schabi.newpipe.error.UserAction;
+import org.schabi.newpipe.extractor.stream.AudioStream;
 import org.schabi.newpipe.extractor.stream.StreamInfo;
 import org.schabi.newpipe.extractor.stream.StreamType;
 import org.schabi.newpipe.extractor.stream.VideoStream;
@@ -1915,6 +1916,12 @@ public final class Player implements PlaybackListener, Listener {
                 .map(quality -> quality.getSortedVideoStreams()
                         .get(quality.getSelectedVideoStreamIndex()));
     }
+
+    public Optional<AudioStream> getSelectedAudioStream() {
+        return Optional.ofNullable(currentMetadata)
+                .flatMap(MediaItemTag::getMaybeAudioLanguage)
+                .map(MediaItemTag.AudioLanguage::getSelectedAudioStream);
+    }
     //endregion
 
 
@@ -2205,6 +2212,10 @@ public final class Player implements PlaybackListener, Listener {
 
     public void setPlaybackQuality(@Nullable final String quality) {
         videoResolver.setPlaybackQuality(quality);
+    }
+
+    public void setAudioLanguage(@Nullable final String language) {
+        videoResolver.setAudioLanguage(language);
     }
 
 
