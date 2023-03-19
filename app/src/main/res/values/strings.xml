@@ -793,4 +793,8 @@
     <string name="track_type_original">original</string>
     <string name="track_type_dubbed">dubbed</string>
     <string name="track_type_descriptive">descriptive</string>
+    <string name="audio_track_name">%s %s</string>
+    <string name="audio_track_type_original">original</string>
+    <string name="audio_track_type_dubbed">dubbed</string>
+    <string name="audio_track_type_descriptive">descriptive</string>
 </resources>
