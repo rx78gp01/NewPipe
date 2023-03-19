@@ -1257,6 +1257,9 @@ public final class Player implements PlaybackListener, Listener {
             }
             final StreamInfo previousInfo = Optional.ofNullable(currentMetadata)
                     .flatMap(MediaItemTag::getMaybeStreamInfo).orElse(null);
+            final MediaItemTag.AudioTrack previousAudioTrack =
+                    Optional.ofNullable(currentMetadata)
+                    .flatMap(MediaItemTag::getMaybeAudioTrack).orElse(null);
             currentMetadata = tag;
 
             if (!currentMetadata.getErrors().isEmpty()) {
@@ -1277,6 +1280,12 @@ public final class Player implements PlaybackListener, Listener {
                 if (previousInfo == null || !previousInfo.getUrl().equals(info.getUrl())) {
                     // only update with the new stream info if it has actually changed
                     updateMetadataWith(info);
+                } else if (previousAudioTrack == null
+                        || tag.getMaybeAudioTrack()
+                                .map(t -> t.getSelectedAudioStreamIndex()
+                                        != previousAudioTrack.getSelectedAudioStreamIndex())
+                                .orElse(false)) {
+                    notifyAudioTrackUpdateToListeners();
                 }
             });
         });
@@ -1788,6 +1797,7 @@ public final class Player implements PlaybackListener, Listener {
         registerStreamViewed();
 
         notifyMetadataUpdateToListeners();
+        notifyAudioTrackUpdateToListeners();
         UIs.call(playerUi -> playerUi.onMetadataChanged(info));
     }
 
@@ -1919,8 +1929,8 @@ public final class Player implements PlaybackListener, Listener {
 
     public Optional<AudioStream> getSelectedAudioStream() {
         return Optional.ofNullable(currentMetadata)
-                .flatMap(MediaItemTag::getMaybeAudioLanguage)
-                .map(MediaItemTag.AudioLanguage::getSelectedAudioStream);
+                .flatMap(MediaItemTag::getMaybeAudioTrack)
+                .map(MediaItemTag.AudioTrack::getSelectedAudioStream);
     }
     //endregion
 
@@ -2050,6 +2060,15 @@ public final class Player implements PlaybackListener, Listener {
         }
         if (activityListener != null) {
             activityListener.onProgressUpdate(currentProgress, duration, bufferPercent);
+        }
+    }
+
+    private void notifyAudioTrackUpdateToListeners() {
+        if (fragmentListener != null) {
+            fragmentListener.onAudioTrackUpdate();
+        }
+        if (activityListener != null) {
+            activityListener.onAudioTrackUpdate();
         }
     }
 
@@ -2214,8 +2233,9 @@ public final class Player implements PlaybackListener, Listener {
         videoResolver.setPlaybackQuality(quality);
     }
 
-    public void setAudioLanguage(@Nullable final String language) {
-        videoResolver.setAudioLanguage(language);
+    public void setAudioTrack(@Nullable final String audioTrackId) {
+        videoResolver.setAudioTrack(audioTrackId);
+        audioResolver.setAudioTrack(audioTrackId);
     }
 
 
