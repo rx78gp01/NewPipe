@@ -70,6 +70,7 @@ public final class PlayerService extends Service {
                 && player.getPlayQueue() == null) {
             // No need to process media button's actions if the player is not working, otherwise the
             // player service would strangely start with nothing to play
+            player.handleNone();
             return START_NOT_STICKY;
         }
 

@@ -42,6 +42,14 @@ public final class NotificationPlayerUi extends PlayerUi {
     }
 
     @Override
+    public void handleNone() {
+        super.handleNone();
+        notificationUtil.createNotificationIfNeededAndUpdate(false);
+        notificationUtil.cancelNotificationAndStopForeground();
+        foregroundNotificationAlreadyCreated = false;
+    }
+
+    @Override
     public void onThumbnailLoaded(@Nullable final Bitmap bitmap) {
         super.onThumbnailLoaded(bitmap);
         notificationUtil.updateThumbnail();

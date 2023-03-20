@@ -86,6 +86,9 @@ public abstract class PlayerUi {
     public void destroy() {
     }
 
+    public void handleNone() {
+    }
+    
     /**
      * Called when the player is smooth-stopping, that is, transitioning smoothly to a new play
      * queue after the user tapped on a new video stream while a stream was playing in the video
