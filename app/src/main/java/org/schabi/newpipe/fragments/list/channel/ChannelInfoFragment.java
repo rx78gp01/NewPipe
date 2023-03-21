@@ -25,7 +25,7 @@ import org.schabi.newpipe.extractor.channel.ChannelInfo;
 import org.schabi.newpipe.util.Localization;
 import org.schabi.newpipe.util.NavigationHelper;
 import org.schabi.newpipe.util.external_communication.ShareUtils;
-import org.schabi.newpipe.util.external_communication.TextLinkifier;
+import org.schabi.newpipe.util.text.TextLinkifier;
 
 import java.util.List;
 
@@ -72,8 +72,9 @@ public class ChannelInfoFragment extends BaseFragment {
             binding.descriptionTitle.setVisibility(View.GONE);
             binding.descriptionView.setVisibility(View.GONE);
         } else {
-            TextLinkifier.createLinksFromPlainText(
-                    binding.descriptionView, description, null, disposables);
+            TextLinkifier.fromPlainText(
+                    binding.descriptionView, description, null, null,
+                    disposables, null);
         }
     }
 

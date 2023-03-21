@@ -41,7 +41,6 @@ import org.schabi.newpipe.local.subscription.SubscriptionViewModel.SubscriptionS
 import org.schabi.newpipe.local.subscription.dialog.FeedGroupDialog
 import org.schabi.newpipe.local.subscription.dialog.FeedGroupReorderDialog
 import org.schabi.newpipe.local.subscription.item.ChannelItem
-import org.schabi.newpipe.local.subscription.item.EmptyPlaceholderItem
 import org.schabi.newpipe.local.subscription.item.FeedGroupAddNewGridItem
 import org.schabi.newpipe.local.subscription.item.FeedGroupAddNewItem
 import org.schabi.newpipe.local.subscription.item.FeedGroupCardGridItem
@@ -49,6 +48,7 @@ import org.schabi.newpipe.local.subscription.item.FeedGroupCardItem
 import org.schabi.newpipe.local.subscription.item.FeedGroupCarouselItem
 import org.schabi.newpipe.local.subscription.item.GroupsHeader
 import org.schabi.newpipe.local.subscription.item.Header
+import org.schabi.newpipe.local.subscription.item.ImportSubscriptionsHintPlaceholderItem
 import org.schabi.newpipe.local.subscription.services.SubscriptionsExportService
 import org.schabi.newpipe.local.subscription.services.SubscriptionsImportService
 import org.schabi.newpipe.local.subscription.services.SubscriptionsImportService.KEY_MODE
@@ -60,7 +60,6 @@ import org.schabi.newpipe.util.NavigationHelper
 import org.schabi.newpipe.util.OnClickGesture
 import org.schabi.newpipe.util.ServiceHelper
 import org.schabi.newpipe.util.ThemeHelper.getGridSpanCountChannels
-import org.schabi.newpipe.util.ThemeHelper.shouldUseGridLayout
 import org.schabi.newpipe.util.external_communication.ShareUtils
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -245,7 +244,7 @@ class SubscriptionFragment : BaseStateFragment<SubscriptionState>() {
         super.initViews(rootView, savedInstanceState)
         _binding = FragmentSubscriptionBinding.bind(rootView)
 
-        groupAdapter.spanCount = if (shouldUseGridLayout(context)) getGridSpanCountChannels(context) else 1
+        groupAdapter.spanCount = if (SubscriptionViewModel.shouldUseGridForSubscription(requireContext())) getGridSpanCountChannels(context) else 1
         binding.itemsList.layoutManager = GridLayoutManager(requireContext(), groupAdapter.spanCount).apply {
             spanSizeLookup = groupAdapter.spanSizeLookup
         }
@@ -312,7 +311,7 @@ class SubscriptionFragment : BaseStateFragment<SubscriptionState>() {
             groupAdapter.add(this)
         }
 
-        subscriptionsSection.setPlaceholder(EmptyPlaceholderItem())
+        subscriptionsSection.setPlaceholder(ImportSubscriptionsHintPlaceholderItem())
         subscriptionsSection.setHideWhenEmpty(true)
 
         groupAdapter.add(
@@ -380,15 +379,15 @@ class SubscriptionFragment : BaseStateFragment<SubscriptionState>() {
     override fun handleResult(result: SubscriptionState) {
         super.handleResult(result)
 
-        val shouldUseGridLayout = shouldUseGridLayout(context)
         when (result) {
             is SubscriptionState.LoadedState -> {
                 result.subscriptions.forEach {
                     if (it is ChannelItem) {
                         it.gesturesListener = listenerChannelItem
-                        it.itemVersion = when {
-                            shouldUseGridLayout -> ChannelItem.ItemVersion.GRID
-                            else -> ChannelItem.ItemVersion.MINI
+                        it.itemVersion = if (SubscriptionViewModel.shouldUseGridForSubscription(requireContext())) {
+                            ChannelItem.ItemVersion.GRID
+                        } else {
+                            ChannelItem.ItemVersion.MINI
                         }
                     }
                 }
@@ -433,10 +432,10 @@ class SubscriptionFragment : BaseStateFragment<SubscriptionState>() {
                 clear()
                 if (listViewMode) {
                     add(FeedGroupAddNewItem())
-                    add(FeedGroupCardItem(GROUP_ALL_ID, getString(R.string.all), FeedGroupIcon.RSS))
+                    add(FeedGroupCardItem(GROUP_ALL_ID, getString(R.string.all), FeedGroupIcon.WHATS_NEW))
                 } else {
                     add(FeedGroupAddNewGridItem())
-                    add(FeedGroupCardGridItem(GROUP_ALL_ID, getString(R.string.all), FeedGroupIcon.RSS))
+                    add(FeedGroupCardGridItem(GROUP_ALL_ID, getString(R.string.all), FeedGroupIcon.WHATS_NEW))
                 }
                 addAll(groups)
             }
