@@ -134,7 +134,11 @@ public class ChannelFragment extends BaseStateFragment<ChannelInfo>
     @Override
     public void onSaveInstanceState(final @NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("LastTab", binding.tabLayout.getSelectedTabPosition());
+        if (binding != null) {
+            outState.putInt("LastTab", binding.tabLayout.getSelectedTabPosition());
+        } else {
+            outState.putInt("LastTab", 0);
+        }
     }
 
     @Override
