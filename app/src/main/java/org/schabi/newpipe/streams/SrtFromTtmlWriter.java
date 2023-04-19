@@ -78,6 +78,10 @@ public class SrtFromTtmlWriter {
             return;
         }
 
+        // add UTF-8 BOM
+        byte[] BOM = {(byte) 0xEF,(byte) 0xBB,(byte) 0xBF};
+        out.write(BOM);
+
         for (final Element paragraph : paragraphList) {
             text.setLength(0);
 
