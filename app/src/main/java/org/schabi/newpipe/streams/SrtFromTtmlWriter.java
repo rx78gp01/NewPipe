@@ -45,7 +45,7 @@ public class SrtFromTtmlWriter {
         writeString(" --> ");
         writeString(end);
         writeString(NEW_LINE);
-        writeString(text.toString());
+        writeString(text.toString().trim());
         writeString(NEW_LINE);
         writeString(NEW_LINE);
     }
@@ -82,7 +82,10 @@ public class SrtFromTtmlWriter {
             text.setLength(0);
 
             for (final Node children : paragraph.childNodes()) {
-                if (children instanceof TextNode) {
+		if (children instanceof Element
+                        && ((Element) children).tagName().equalsIgnoreCase("span")) {
+                    text.append(((Element) children).text());
+                } else if (children instanceof TextNode) {
                     text.append(((TextNode) children).text());
                 } else if (children instanceof Element
                         && ((Element) children).tagName().equalsIgnoreCase("br")) {
