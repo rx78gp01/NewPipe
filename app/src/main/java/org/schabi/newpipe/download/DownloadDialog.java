@@ -1,7 +1,6 @@
 package org.schabi.newpipe.download;
 
 import static org.schabi.newpipe.extractor.stream.DeliveryMethod.PROGRESSIVE_HTTP;
-import static org.schabi.newpipe.ktx.ViewUtils.animate;
 import static org.schabi.newpipe.util.ListHelper.getStreamsOfSpecifiedDelivery;
 import static org.schabi.newpipe.util.Localization.assureCorrectAppLanguage;
 
@@ -82,10 +81,7 @@ import java.util.Optional;
 
 import icepick.Icepick;
 import icepick.State;
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 import us.shandian.giga.get.MissionRecoveryInfo;
 import us.shandian.giga.postprocessing.Postprocessing;
 import us.shandian.giga.service.DownloadManager;
@@ -320,8 +316,6 @@ public class DownloadDialog extends DialogFragment
         dialogBinding.audioTrackSpinner.setOnItemSelectedListener(this);
         dialogBinding.videoAudioGroup.setOnCheckedChangeListener(this);
 
-        showLoading();
-
         initToolbar(dialogBinding.toolbarLayout.toolbar);
         setupDownloadOptions();
 
@@ -406,8 +400,6 @@ public class DownloadDialog extends DialogFragment
                     if (dialogBinding.videoAudioGroup.getCheckedRadioButtonId()
                             == R.id.video_button) {
                         setupVideoSpinner();
-                        //okButton.setEnabled(true);
-                        hideLoading();
                     }
                 }, throwable -> ErrorUtil.showSnackbar(context,
                         new ErrorInfo(throwable, UserAction.DOWNLOAD_OPEN_DIALOG,
@@ -418,8 +410,6 @@ public class DownloadDialog extends DialogFragment
                     if (dialogBinding.videoAudioGroup.getCheckedRadioButtonId()
                             == R.id.audio_button) {
                         setupAudioSpinner();
-                        //okButton.setEnabled(true);
-                        hideLoading();
                     }
                 }, throwable -> ErrorUtil.showSnackbar(context,
                         new ErrorInfo(throwable, UserAction.DOWNLOAD_OPEN_DIALOG,
@@ -430,8 +420,6 @@ public class DownloadDialog extends DialogFragment
                     if (dialogBinding.videoAudioGroup.getCheckedRadioButtonId()
                             == R.id.subtitle_button) {
                         setupSubtitleSpinner();
-                        //okButton.setEnabled(true);
-                        hideLoading();
                     }
                 }, throwable -> ErrorUtil.showSnackbar(context,
                         new ErrorInfo(throwable, UserAction.DOWNLOAD_OPEN_DIALOG,
@@ -1154,15 +1142,5 @@ public class DownloadDialog extends DialogFragment
                 Toast.LENGTH_SHORT).show();
 
         dismiss();
-    }
-
-    public void showLoading() {
-        dialogBinding.fileName.setVisibility(View.GONE);
-        animate(dialogBinding.loadingProgressBar, true, 400);
-    }
-
-    public void hideLoading() {
-        animate(dialogBinding.loadingProgressBar, false, 0);
-        dialogBinding.fileName.setVisibility(View.VISIBLE);
     }
 }
