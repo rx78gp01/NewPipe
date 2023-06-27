@@ -396,12 +396,7 @@ public final class ListHelper {
         // this is actually an error,
         // but maybe there is really no stream fitting to the default value.
         if (defaultStreamIndex == -1) {
-            final int defaultStreamIndex2 =
-                    getVideoStreamIndex("720p60", MediaFormat.MPEG_4, videoStreams);
-            if (defaultStreamIndex2 == -1) {
-                return getVideoStreamIndex("720p", MediaFormat.MPEG_4, videoStreams);
-            }
-            return defaultStreamIndex2;
+            return 0;
         }
         return defaultStreamIndex;
     }
