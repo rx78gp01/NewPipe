@@ -476,6 +476,14 @@ public final class Player implements PlaybackListener, Listener {
         NavigationHelper.sendPlayerStartedEvent(context);
     }
 
+    public void handleNone() {
+        if (DEBUG) {
+            Log.d(TAG, "handleNone() called");
+        }
+        
+        UIs.call(PlayerUi::handleNone);
+    }
+
     private void initUIsForCurrentPlayerType() {
         if ((UIs.get(MainPlayerUi.class).isPresent() && playerType == PlayerType.MAIN)
                 || (UIs.get(PopupPlayerUi.class).isPresent() && playerType == PlayerType.POPUP)) {
