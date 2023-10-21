@@ -140,7 +140,7 @@ public class SeekbarPreviewThumbnailHolder {
                     }
 
                     // Cut out the corresponding bitmap form the "srcBitMap"
-                    return Bitmap.createBitmap(srcBitMap, bounds[1], bounds[2],
+                    return Bitmap.createBitmap(srcBitMap, 0, bounds[2],
                             frameset.getFrameWidth(), frameset.getFrameHeight());
                 });
 
