@@ -693,7 +693,9 @@ public final class Player implements PlaybackListener, Listener {
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(final Context ctx, final Intent intent) {
+		if (playQueue != null) {
                 onBroadcastReceived(intent);
+               }
             }
         };
         intentFilter = new IntentFilter();
