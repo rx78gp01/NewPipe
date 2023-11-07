@@ -56,6 +56,8 @@ public final class ServiceHelper {
             case "sepia_videos":
             case "music_videos":
                 return c.getString(R.string.videos_string);
+            case "live_streams":
+                return c.getString(R.string.duration_live);
             case "channels":
                 return c.getString(R.string.channels);
             case "playlists":
