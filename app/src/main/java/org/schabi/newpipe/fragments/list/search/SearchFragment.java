@@ -452,6 +452,13 @@ public class SearchFragment extends BaseListFragment<SearchInfo, ListExtractor.I
                         "Sepia Search");
                 sepiaItem.setEnabled(false);
             }
+            if (filter.equals(YoutubeSearchQueryHandlerFactory.LIVE_STREAMS)) {
+                final MenuItem liveItem = menu.add(2,
+                        itemId++,
+                        0,
+                        "YouTube Live");
+                liveItem.setEnabled(false);
+            }
             menuItemToFilterName.put(itemId, filter);
             final MenuItem item = menu.add(1,
                     itemId++,
