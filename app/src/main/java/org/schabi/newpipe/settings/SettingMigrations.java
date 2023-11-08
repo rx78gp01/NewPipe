@@ -169,12 +169,16 @@ public final class SettingMigrations {
         sp = PreferenceManager.getDefaultSharedPreferences(context);
         final String lastPrefVersionKey = context.getString(R.string.last_used_preferences_version);
         final int lastPrefVersion = sp.getInt(lastPrefVersionKey, 0);
+        final String showHoldToAppendKey = context.getString(R.string.show_hold_to_append_key);
+
 
         // no migration to run, already up to date
         if (isFirstRun) {
             sp.edit().putInt(lastPrefVersionKey, VERSION).apply();
             return;
         } else if (lastPrefVersion == VERSION) {
+            sp.edit().putInt(lastPrefVersionKey, 5).apply();
+            sp.edit().remove(showHoldToAppendKey).apply();
             return;
         }
 
