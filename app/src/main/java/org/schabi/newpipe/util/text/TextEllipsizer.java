@@ -33,7 +33,7 @@ public final class TextEllipsizer {
     @Nullable private StreamingService streamingService;
     @Nullable private String streamUrl;
     private boolean isEllipsized = false;
-    @Nullable private Boolean canBeEllipsized = null;
+    @Nullable private Boolean caBeEllipsized = null;
 
     @NonNull private final Paint paintAtContentSize = new Paint();
     private final float ellipsisWidthPx;
@@ -45,7 +45,6 @@ public final class TextEllipsizer {
                           @Nullable final StreamingService streamingService) {
         this.view = view;
         this.maxLines = maxLines;
-        this.content = Description.EMPTY_DESCRIPTION;
         this.streamingService = streamingService;
 
         paintAtContentSize.setTextSize(view.getTextSize());
@@ -58,14 +57,14 @@ public final class TextEllipsizer {
 
     public void setContent(@NonNull final Description content) {
         this.content = content;
-        canBeEllipsized = null;
+        caBeEllipsized = null;
         linkifyContentView(v -> {
             final int currentMaxLines = view.getMaxLines();
             view.setMaxLines(EXPANDED_LINES);
-            canBeEllipsized = view.getLineCount() > maxLines;
+            caBeEllipsized = view.getLineCount() > maxLines;
             view.setMaxLines(currentMaxLines);
             if (onContentChanged != null) {
-                onContentChanged.accept(canBeEllipsized);
+                onContentChanged.accept(caBeEllipsized);
             }
         });
     }
@@ -136,7 +135,7 @@ public final class TextEllipsizer {
     }
 
     /**
-     * Toggle the view between the ellipsized and expanded state.
+     * Toggle the view between the ellipsed and expanded state.
      */
     public void toggle() {
         if (isEllipsized) {
@@ -147,17 +146,16 @@ public final class TextEllipsizer {
     }
 
     /**
-     * Whether the {@link #view} can be ellipsized.
-     * This is only the case when the {@link #content} has more lines
-     * than allowed via {@link #maxLines}.
-     * @return {@code true} if the {@link #content} has more lines than allowed via
-     * {@link #maxLines} and thus can be shortened, {@code false} if the {@code content} fits into
-     * the {@link #view} without being shortened and {@code null} if the initialization is not
-     * completed yet.
+     * Whether the {@link view} can be ellipsized.
+     * This is only the case when the {@link content} has more lines
+     * than allowed via {@link maxLines}.
+     * @return {@code true} if the {@link content} has more lines than allowed via {@link maxLines}
+     * and thus can be shortened, {@code false} if the {@code content} fits into the {@link view}
+     * without being shortened and {@code null} if the initialization is not completed yet.
      */
     @Nullable
     public Boolean canBeEllipsized() {
-        return canBeEllipsized;
+        return caBeEllipsized;
     }
 
     private void linkifyContentView(final Consumer<View> consumer) {
@@ -175,13 +173,17 @@ public final class TextEllipsizer {
     /**
      * Add a listener which is called when the given content is changed,
      * either from <em>ellipsized</em> to <em>full</em> or vice versa.
-     * @param listener The listener to be called, or {@code null} to remove it.
+     * @param listener The listener to be called.
      *                 The Boolean parameter is the new state.
      *                 <em>Ellipsized</em> content is represented as {@code true},
      *                 normal or <em>full</em> content by {@code false}.
      */
-    public void setStateChangeListener(@Nullable final Consumer<Boolean> listener) {
+    public void setStateChangeListener(final Consumer<Boolean> listener) {
         this.stateChangeListener = listener;
+    }
+
+    public void removeStateChangeListener() {
+        this.stateChangeListener = null;
     }
 
     private void notifyStateChangeListener(final boolean oldState) {
