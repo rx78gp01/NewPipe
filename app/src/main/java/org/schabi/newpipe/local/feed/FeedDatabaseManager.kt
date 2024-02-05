@@ -32,7 +32,7 @@ class FeedDatabaseManager(context: Context) {
         /**
          * Only items that are newer than this will be saved.
          */
-        val FEED_OLDEST_ALLOWED_DATE: OffsetDateTime = LocalDate.now().minusWeeks(17)
+        val FEED_OLDEST_ALLOWED_DATE: OffsetDateTime = LocalDate.now().minusWeeks(21)
             .atStartOfDay().atOffset(ZoneOffset.UTC)
     }
 
