@@ -1,9 +1,7 @@
 package org.schabi.newpipe.fragments.list.playlist;
 
-import static org.schabi.newpipe.extractor.utils.Utils.isBlank;
 import static org.schabi.newpipe.ktx.ViewUtils.animate;
 import static org.schabi.newpipe.ktx.ViewUtils.animateHideRecyclerViewAllowingScrolling;
-import static org.schabi.newpipe.util.text.TextLinkifier.SET_LINK_MOVEMENT_METHOD;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -19,7 +17,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
-import androidx.core.text.HtmlCompat;
 
 import com.google.android.material.shape.CornerFamily;
 import com.google.android.material.shape.ShapeAppearanceModel;
@@ -40,7 +37,6 @@ import org.schabi.newpipe.extractor.ListExtractor;
 import org.schabi.newpipe.extractor.ServiceList;
 import org.schabi.newpipe.extractor.playlist.PlaylistInfo;
 import org.schabi.newpipe.extractor.services.youtube.YoutubeParsingHelper;
-import org.schabi.newpipe.extractor.stream.Description;
 import org.schabi.newpipe.extractor.stream.StreamInfoItem;
 import org.schabi.newpipe.fragments.list.BaseListInfoFragment;
 import org.schabi.newpipe.info_list.dialog.InfoItemDialog;
@@ -55,7 +51,6 @@ import org.schabi.newpipe.util.NavigationHelper;
 import org.schabi.newpipe.util.image.PicassoHelper;
 import org.schabi.newpipe.util.external_communication.ShareUtils;
 import org.schabi.newpipe.util.PlayButtonHelper;
-import org.schabi.newpipe.util.text.TextLinkifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -325,18 +320,6 @@ public class PlaylistFragment extends BaseListInfoFragment<StreamInfoItem, Playl
 
         headerBinding.playlistStreamCount.setText(Localization
                 .localizeStreamCount(getContext(), result.getStreamCount()));
-
-        final Description description = result.getDescription();
-        if (description != null && description != Description.EMPTY_DESCRIPTION
-                && !isBlank(description.getContent())) {
-            TextLinkifier.fromDescription(headerBinding.playlistDescription,
-                    description, HtmlCompat.FROM_HTML_MODE_LEGACY,
-                    result.getService(), result.getUrl(),
-                    disposables, SET_LINK_MOVEMENT_METHOD);
-            headerBinding.playlistDescription.setVisibility(View.VISIBLE);
-        } else {
-            headerBinding.playlistDescription.setVisibility(View.GONE);
-        }
 
         if (!result.getErrors().isEmpty()) {
             showSnackBarError(new ErrorInfo(result.getErrors(), UserAction.REQUESTED_PLAYLIST,
