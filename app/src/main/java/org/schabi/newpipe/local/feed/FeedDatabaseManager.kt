@@ -112,7 +112,7 @@ class FeedDatabaseManager(context: Context) {
     }
 
     fun removeOrphansOrOlderStreams(oldestAllowedDate: OffsetDateTime = FEED_OLDEST_ALLOWED_DATE) {
-        feedTable.unlinkStreamsOlderThan(oldestAllowedDate)
+        feedTable.unlinkStreamsOlderThan(oldestAllowedDate.plusDays(-92))
         streamTable.deleteOrphans()
     }
 
